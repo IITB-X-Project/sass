@@ -1,14 +1,14 @@
 const Product = require('../schema/product');
 const User = require("../schema/user"); 
 
-// Function to search products and log search history
+// search products and log search history
 
 
 const searchProduct=async(req, res) =>{
   const { query } = req.params;
 
   try {
-    // Assume you have a Product model imported
+   
     const products = await Product.find({
       $or: [
         { title: { $regex: query, $options: 'i' } },

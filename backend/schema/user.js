@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 
+const connectDB = require("./db"); 
+connectDB();
+
+
 const UserSchema = new mongoose.Schema({
   userName: {
     type: String,
@@ -27,6 +31,10 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: true,  
   },
+  searchHistory:{
+    type:Array,
+    default:[]
+}
 });
 
 const User = mongoose.model("User", UserSchema);

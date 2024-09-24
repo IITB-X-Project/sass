@@ -1,5 +1,5 @@
 const Product = require('../schema/product');
-const User = require("../schema/user"); 
+//const User = require("../schema/user"); 
 
 // search products and log search history
 

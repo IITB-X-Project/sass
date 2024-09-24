@@ -7,6 +7,8 @@ const Product = require('../schema/product');
 const createProduct = async (req, res) => {
   try {
     const { image, title, description, category, brand, price, salePrice, totalStock, averageReview, isAvailable } = req.body;
+    const tags = [title, category, brand, description];
+    console.log("Tags:", tags);
     const newProduct = await Product.create({
         image,
         title,
@@ -18,6 +20,7 @@ const createProduct = async (req, res) => {
         totalStock,
         averageReview,
         isAvailable,
+        tags,
       });
 
     res.status(201).json({ message: 'Product created successfully', product: newProduct });

@@ -1,7 +1,4 @@
 const mongoose = require("mongoose");
-const connectDB = require("./db"); 
-connectDB();
-
 const ProductSchema = new mongoose.Schema(
   {
     image: String,

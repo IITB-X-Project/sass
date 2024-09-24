@@ -94,7 +94,6 @@ const updateProduct = async (req, res) => {
 
 
 
-
 // Delete a product by ID
 const deleteProduct = async (req, res) => {
   try {
@@ -111,10 +110,41 @@ const deleteProduct = async (req, res) => {
 
 
 
+// Filtering the products
+const filterProducts = async (req, res) => {
+  try {
+    const { minPrice, maxPrice, minRating, maxRating } = req.query;
+    const filter = {};
+
+    if (minPrice) {
+      filter.price = { $gte: Number(minPrice) }; 
+    }
+    if (maxPrice) {
+      filter.price = { ...filter.price, $lte: Number(maxPrice) }; 
+    }
+    if (minRating) {
+      filter.averageReview = { $gte: Number(minRating) }; 
+    }
+    if (maxRating) {
+      filter.averageReview = { ...filter.averageReview, $lte: Number(maxRating) }; 
+    }
+console.log(filter)
+    const products = await Product.find(filter);
+    res.status(200).json({products});
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while filtering products' });
+  }
+};
+
+
+
+
 module.exports = {
   createProduct,
   getAllProducts,
   getProductById,
   updateProduct,
   deleteProduct,
+  filterProducts,
 };
+

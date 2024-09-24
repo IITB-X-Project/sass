@@ -10,12 +10,7 @@ const searchProduct=async(req, res) =>{
   try {
    
     const products = await Product.find({
-      $or: [
-        { title: { $regex: query, $options: 'i' } },
-        { category: { $regex: query, $options: 'i' } },
-        { brand: { $regex: query, $options: 'i' } },
-        { description: { $regex: query, $options: 'i' } },
-      ],
+      tags: { $regex: query, $options: "i" },
     });
 
     if (products.length === 0) {

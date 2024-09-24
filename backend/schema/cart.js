@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
-<<<<<<< HEAD
-=======
 const connectDB = require("../db"); 
 connectDB();
->>>>>>> 313edd4 (adding search feature)
+
 
 const CartSchema = new mongoose.Schema(
   {

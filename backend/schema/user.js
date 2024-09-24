@@ -1,4 +1,9 @@
 const mongoose = require("mongoose");
+<<<<<<< HEAD
+=======
+const connectDB = require("../db"); 
+connectDB();
+>>>>>>> 313edd4 (adding search feature)
 
 const UserSchema = new mongoose.Schema({
   userName: {
@@ -27,6 +32,10 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: true,  
   },
+  searchHistory:{
+    type:Array,
+    default:[]
+}
 });
 
 const User = mongoose.model("User", UserSchema);

@@ -7,9 +7,8 @@ app.use(cors())
 connectDB();
 
 const productRoutes = require("./routes/product");
-const orderRoutes = require("./routes/order");
 app.use("/api/products", productRoutes);
-app.use("/api/orders", orderRoutes);
+
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');

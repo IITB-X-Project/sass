@@ -1,0 +1,27 @@
+[
+    {
+      "id": 1,
+      "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png",
+      "name": "Product 1",
+      "price": "10",
+      "discount": "0.05",
+      "quantity": 1
+    },
+    {
+      "id": 2,
+      "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png",
+      "name": "Product 2",
+      "price": "15",
+      "discount": "0.08",
+      "quantity": 1
+    },
+    {
+      "id": 3,
+      "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png",
+      "name": "Product 3",
+      "price": "20",
+      "discount": "0.05",
+      "quantity": 1
+    }
+]
+  

@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+=======
+
+const Order = require('../schema/order');
+
+const ResponseFlags = {
+  SUCCESS: 0,
+  USER_NOT_AUTHENTICATED: 1,
+  NO_ORDERS_FOUND: 2,
+  SERVER_ERROR: 3
+};
+
+
+>>>>>>> 0470978ad61758bd2907e309ce2f7753d704dd19
 
 const Order = require('../schema/order');
 const Joi = require('joi');

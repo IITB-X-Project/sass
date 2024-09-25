@@ -1,6 +1,7 @@
 const Product = require('../schema/product');
 const Joi = require('joi');
 
+
 //Flags for response
 const ResponseFlags = {
   SUCCESS: 0,
@@ -11,6 +12,8 @@ const ResponseFlags = {
   INVALID_INPUT: 5,
   SERVER_ERROR: 6,
 };
+
+
 
 //validating the imput using joi
 const productSchema = Joi.object({

@@ -1,9 +1,14 @@
 const Cart = require('../schema/cart'); 
 
+
+
+
 // Create a new cart
 const createCart = async (req, res) => {
   try {
-    const { userId, items } = req.body;
+    const userId = req.session.userId; 
+    if (!userId) return res.status(401).json({ message: 'User not authenticated' });
+    const { items } = req.body;
     const cart = new Cart({ userId, items });
     await cart.save();
     res.status(201).json(cart);
@@ -13,10 +18,14 @@ const createCart = async (req, res) => {
   }
 };
 
+
+
+
 // Get a cart by userId
 const getCartByUserId = async (req, res) => {
   try {
-    const { userId } = req.params;
+     const userId = req.session.userId; 
+    if (!userId) return res.status(401).json({ message: 'User not authenticated' });
     const cart = await Cart.findOne({ userId }).populate('items.productId');
     if (!cart) {
       return res.status(404).json({ error: 'Cart not found' });
@@ -28,10 +37,14 @@ const getCartByUserId = async (req, res) => {
   }
 };
 
+
+
+
 // Update cart items
 const updateCart = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId = req.session.userId; 
+    if (!userId) return res.status(401).json({ message: 'User not authenticated' });
     const { items } = req.body;
 
     const updatedCart = await Cart.findOneAndUpdate(
@@ -51,10 +64,14 @@ const updateCart = async (req, res) => {
   }
 };
 
+
+
+
 // Delete cart
 const deleteCart = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId = req.session.userId; 
+    if (!userId) return res.status(401).json({ message: 'User not authenticated' });
 
     const deletedCart = await Cart.findOneAndDelete({ userId });
     if (!deletedCart) {

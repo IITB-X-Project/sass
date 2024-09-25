@@ -1,10 +1,12 @@
 const Address = require('../schema/address')
 
+
+
+
 // Create a new address for a user
 const addAddress = async (req, res) => {
     try {
       const { userId, addresses } = req.body;
-  
       const newAddress = new Address({ userId, addresses });
       await newAddress.save();
   
@@ -14,10 +16,15 @@ const addAddress = async (req, res) => {
       res.status(500).json({ error: 'Error creating address', details: error.message });
     }
   };
+
+
+
+
 // Get all addresses for a user
 const getAddressesByUserId = async (req, res) => {
     try {
-      const { userId } = req.params;
+      const {userId}=req.params; 
+      if (!userId) return res.status(401).json({ message: 'User not authenticated' });
       const addresses = await Address.findOne({ userId });
   
       if (!addresses) {
@@ -35,7 +42,8 @@ const getAddressesByUserId = async (req, res) => {
 // Update an address for a user
 const updateAddress = async (req, res) => {
     try {
-      const { userId } = req.params;
+      const userId = req.session.userId; 
+      if (!userId) return res.status(401).json({ message: 'User not authenticated' });
       const { addressId, newAddress, newPhone } = req.body;
   
       const updatedAddress = await Address.findOneAndUpdate(
@@ -59,7 +67,8 @@ const updateAddress = async (req, res) => {
 // Delete an address for a user
 const deleteAddress = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId = req.session.userId; 
+    if (!userId) return res.status(401).json({ message: 'User not authenticated' });
     const { addressId } = req.body;
 
     const updatedAddress = await Address.findOneAndUpdate(
@@ -78,6 +87,9 @@ const deleteAddress = async (req, res) => {
     res.status(500).json({ error: 'Error deleting address', details: error.message });
   }
 };
+
+
+
 
 // Export all functions
 module.exports = {

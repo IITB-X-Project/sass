@@ -1,8 +1,5 @@
 
 const mongoose = require("mongoose");
-const connectDB = require("../db"); 
-connectDB();
-
 
 const CartSchema = new mongoose.Schema(
   {

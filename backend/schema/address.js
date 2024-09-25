@@ -1,23 +1,22 @@
 const mongoose = require("mongoose");
 
-const connectDB = require("../db"); 
-connectDB();
+
 
 const AddressSchema = new mongoose.Schema(
   {
     userId: {
       type: String,
-      required: true, // Ensure userId is required
+      required: true, 
     },
     addresses: [
       {
         address: {
           type: String,
-          required: true, // Ensure address is required
+          required: true,
         },
         phone: {
           type: Number,
-          required: true, // Ensure phone is required
+          required: true, 
         },
       },
     ],

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const connectDB = require("./db"); 
+const connectDB = require("../db"); 
 connectDB();
 
 

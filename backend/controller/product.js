@@ -1,54 +1,97 @@
 const Product = require('../schema/product');
+const compression = require('compression');
+const express = require('express');
+const router = express.Router();
+
+//Flags for response
+const ResponseFlags = {
+  SUCCESS: 0,
+  PRODUCT_CREATED: 1,
+  PRODUCT_UPDATED: 2,
+  PRODUCT_DELETED: 3,
+  PRODUCT_NOT_FOUND: 4,
+  INVALID_INPUT: 5,
+  SERVER_ERROR: 6,
+};
+
+//validating the imput using joi
+const productSchema = Joi.object({
+  image: Joi.string().required(),
+  title: Joi.string().required(),
+  description: Joi.string().required(),
+  category: Joi.string().required(),
+  brand: Joi.string().required(),
+  price: Joi.number().min(0).required(),
+  salePrice: Joi.number().min(0),
+  totalStock: Joi.number().integer().min(0).required(),
+  averageReview: Joi.number().min(0).max(5),
+  isAvailable: Joi.boolean().required()
+});
+
 
 // Create a new product
 const createProduct = async (req, res) => {
   try {
-    const { image, title, description, category, brand, price, salePrice, totalStock, averageReview, isAvailable } = req.body;
+    const { error } = productSchema.validate(req.body);
+    if (error) return res.status(400).json({ flag: ResponseFlags.INVALID_INPUT });
 
-    const newProduct = await Product.create({
-      image,
-      title,
-      description,
-      category,
-      brand,
-      price,
-      salePrice,
-      totalStock,
-      averageReview,
-      isAvailable,
-    });
-
-    res.status(201).json({ message: 'Product created successfully', product: newProduct });
+    const newProduct = await Product.create(req.body);
+    res.status(201).json({ flag: ResponseFlags.PRODUCT_CREATED, id: newProduct._id });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to create product' });
+    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
   }
 };
+
 
 // Get all products
 const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
-    res.status(200).json({ products });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const [products, total] = await Promise.all([
+      Product.find()
+        .select('title price averageReview')
+        .lean()
+        .skip(skip)
+        .limit(limit),
+      Product.countDocuments()
+    ]);
+
+    res.status(200).json({
+      flag: ResponseFlags.SUCCESS,
+      products,
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      totalProducts: total
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to fetch products' });
+    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
   }
 };
 
 // Get a single product by ID
 const getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id)
+      .select('title price description')
+      .lean();
+    
     if (!product) {
-      return res.status(404).json({ error: 'Product not found' });
+      return res.status(404).json({ flag: ResponseFlags.PRODUCT_NOT_FOUND });
     }
-    res.status(200).json({ product });
+    res.status(200).json({ flag: ResponseFlags.SUCCESS, product });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to fetch product' });
+    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
   }
 };
+
+
+
 
 // Update a product by ID
 const updateProduct = async (req, res) => {

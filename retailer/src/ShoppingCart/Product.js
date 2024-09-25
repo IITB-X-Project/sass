@@ -4,9 +4,12 @@ export default function Product({ product, id, onQuantityChange, handleRemove })
       <div className="d-flex flex-wrap gap-3 align-items-center justify-content-center justify-content-lg-start">
         <div className="d-flex flex-column align-items-center" data-aos="zoom-in">
           <img
+
+            loading="lazy"
             src={product.image}
             alt={product.title}
             className="img-fluid product-image"
+
           />
           <div className="d-flex align-items-center mt-3 justify-content-center quantity-controls">
             <button

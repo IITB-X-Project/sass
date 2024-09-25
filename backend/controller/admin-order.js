@@ -1,42 +1,51 @@
 
 const Order = require('../schema/order');
+const Joi = require('joi');
 
 const ResponseFlags = {
   SUCCESS: 0,
   USER_NOT_AUTHENTICATED: 1,
   NO_ORDERS_FOUND: 2,
-  SERVER_ERROR: 3
+  SERVER_ERROR: 3,
+  ORDER_CREATED: 4,
+  ORDER_UPDATED: 5,
+  ORDER_DELETED: 6,
+  ORDER_NOT_FOUND: 7,
+  INVALID_INPUT: 8
 };
 
-
-
+const orderSchema = Joi.object({
+  cartId: Joi.string().required(),
+  cartItems: Joi.array().items(Joi.object()).min(1).required(),
+  addressInfo: Joi.object().required(),
+  orderStatus: Joi.string().required(),
+  paymentMethod: Joi.string().required(),
+  paymentStatus: Joi.string().required(),
+  totalAmount: Joi.number().min(0).required(),
+  paymentId: Joi.string().allow(null, ''),
+  payerId: Joi.string().allow(null, '')
+});
 
 // Create Order
 const createOrder = async (req, res) => {
   try {
-    const userId = req.session.userId; 
-    if (!userId) return res.status(401).json({ message: 'User not authenticated' });
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ flag: ResponseFlags.USER_NOT_AUTHENTICATED });
 
-    const {cartId, cartItems, addressInfo, orderStatus, paymentMethod, paymentStatus, totalAmount, paymentId, payerId } = req.body;
+    const { error, value } = orderSchema.validate(req.body);
+    if (error) return res.status(400).json({ flag: ResponseFlags.INVALID_INPUT, errors: error.details.map(d => d.message) });
 
     const newOrder = await Order.create({
       userId,
-      cartId,
-      cartItems,
-      addressInfo,
-      orderStatus,
-      paymentMethod,
-      paymentStatus,
-      totalAmount,
+      ...value,
       orderDate: new Date(),
-      orderUpdateDate: new Date(),
-      paymentId,
-      payerId,
+      orderUpdateDate: new Date()
     });
 
-    res.status(201).json({ message: 'Order created successfully', order: newOrder });
+    res.status(201).json({ flag: ResponseFlags.ORDER_CREATED, id: newOrder._id });
   } catch (error) {
-    res.status(500).json({ error: 'Error creating order' });
+    console.error('Error creating order:', error);
+    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
   }
 };
 
@@ -72,51 +81,41 @@ const getOrdersByUserId = async (req, res) => {
 // Get Order by ID
 const getOrderById = async (req, res) => {
   try {
-    const { id } = req.params;
+    const order = await Order.findById(req.params.id).lean();
+    if (!order) return res.status(404).json({ flag: ResponseFlags.ORDER_NOT_FOUND });
 
-    const order = await Order.findById(id);
-    if (!order) return res.status(404).json({ message: 'Order not found' });
-
-    res.status(200).json({ order });
+    res.status(200).json({ flag: ResponseFlags.SUCCESS, order });
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching order' });
+    console.error('Error fetching order:', error);
+    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
   }
 };
-
 
 
 
 // Update Order
 const updateOrder = async (req, res) => {
   try {
-    const { id } = req.params;
-    const {cartId, cartItems, addressInfo, orderStatus, paymentMethod, paymentStatus, totalAmount, paymentId, payerId } = req.body;
+    const { error, value } = orderSchema.validate(req.body);
+    if (error) return res.status(400).json({ flag: ResponseFlags.INVALID_INPUT, errors: error.details.map(d => d.message) });
 
     const updatedOrder = await Order.findByIdAndUpdate(
-      id,
+      req.params.id,
       {
-        cartItems,
-        cartId,
-        addressInfo,
-        orderStatus,
-        paymentMethod,
-        paymentStatus,
-        totalAmount,
-        orderUpdateDate: new Date(),
-        paymentId,
-        payerId,
+        ...value,
+        orderUpdateDate: new Date()
       },
-      { new: true }
+      { new: true, lean: true }
     );
 
-    if (!updatedOrder) return res.status(404).json({ message: 'Order not found' });
+    if (!updatedOrder) return res.status(404).json({ flag: ResponseFlags.ORDER_NOT_FOUND });
 
-    res.status(200).json({ message: 'Order updated successfully', order: updatedOrder });
+    res.status(200).json({ flag: ResponseFlags.ORDER_UPDATED, id: updatedOrder._id });
   } catch (error) {
-    res.status(500).json({ error: 'Error updating order' });
+    console.error('Error updating order:', error);
+    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
   }
 };
-
 
 
 

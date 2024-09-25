@@ -23,9 +23,9 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  isDuesCleared: { 
-    type: Boolean,
-    default: true,  
+  duesAmount: { 
+    type: Number,
+    default: 0,
   },
   searchHistory:{
     type:Array,

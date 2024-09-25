@@ -1,7 +1,9 @@
 export default function Footer() {
     return (
-        <div className="d-flex justify-content-end mt-5 mb-5">
-            <button className="btn btn-success p-3 mx-3" style={{fontSize: '1.3em'}}>Place Order</button>
+        <div className="footer d-flex justify-content-end mt-5 mb-2" data-aos="fade-up">
+            <button className="btn btn-success footer-btn">
+                Place Order
+            </button>
         </div>
     );
 }

@@ -50,3 +50,235 @@ code {
   }
 }
 
+/* Product card */
+.product-card {
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 2px solid #e0e0e0;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  cursor: pointer; /* Change cursor to pointer for clickable cards */
+}
+
+/* Enlarged state for product card */
+.product-card.enlarged {
+  transform: scale(1.05); /* Scale up on click */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Product image */
+.product-image {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+.product-image:hover {
+  transform: scale(1.1);
+}
+
+/* Out of stock message */
+.out-of-stock {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 2px solid #ff0000;
+  background-color: rgba(255, 0, 0, 0.1);
+  animation: rotate-scale 2s infinite; /* Add bounce animation */
+}
+
+
+@keyframes rotate-scale {
+  0% {
+    transform: rotate(0deg) translateY(0) scale(1);
+  }
+  50% {
+    transform: rotate(360deg) translateY(-10px) scale(1.2); /* Enlarge */
+  }
+  100% {
+    transform: rotate(720deg) translateY(-5px) scale(1); /* Return to original size */
+  }
+}
+
+
+/* Product title */
+.product-title {
+  font-size: 2.5rem;
+  letter-spacing: 0.1rem;
+  word-break: break-word;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  transition: color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.product-title:hover {
+  color: #0056b3;
+  border-bottom: 2px solid #0056b3; /* Add bottom border on hover */
+  padding-bottom: 0.2rem; /* Adjust padding to create space for the border */
+  transform: scale(1.1); /* Enlarge on hover */
+}
+
+/* Product price */
+.product-price {
+  font-size: 1.5rem;
+  color: #555;
+  padding: 0.5rem;
+  transition: transform 0.3s ease, border-bottom 0.3s ease;
+}
+
+.product-price:hover {
+  color: #0056b3;
+  transform: scale(1.1); 
+  border-bottom: 2px solid #0056b3; 
+  padding-bottom: 0.2rem; 
+}
+
+/* Quantity controls */
+.quantity-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.quantity-btn {
+  border-radius: 50%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quantity-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Quantity display */
+.quantity-display {
+  width: 100px;
+  text-align: center;
+  padding: 0.5rem;
+  border: 2px solid #ccc;
+  border-radius: 1em;
+}
+
+/* Action buttons */
+.action-btn {
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn-info:hover {
+  background-color: #17a2b8;
+}
+
+.btn-danger:hover {
+  background-color: #dc3545;
+}
+
+/* Sidebar card */
+.sidebar-card {
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sidebar-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Sidebar header */
+.sidebar-header {
+  margin-bottom: 3rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #007bff;
+  background-color: rgba(0, 123, 255, 0.05);
+  text-align: center;
+}
+
+.sidebar-header h4 {
+  font-size: 1.5rem;
+  color: #007bff;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+/* Sidebar body */
+.sidebar-body {
+  gap: 2rem;
+}
+
+.sidebar-body p {
+  font-size: 1.2rem;
+  color: #333;
+  padding: 0.8rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-body p:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.sidebar-body strong {
+  color: #007bff;
+}
+
+/* Footer */
+.footer {
+  padding: 2rem;
+}
+
+.footer-btn {
+  font-size: 1.3em;
+  padding: 0.8rem 2rem;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.footer-btn:hover {
+  background-color: #28a745; 
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+  transform: translateY(-2px); 
+}
+
+.footer-btn:active {
+  background-color: #218838; 
+  transform: translateY(5px); 
+  box-shadow: none;
+}
+
+/* For Product Titles and Prices */
+.product-title, .product-price {
+  color: #333; 
+}
+
+/* Button Styling */
+.action-btn {
+  color: white;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+  background-color: #138496; 
+  transform: translateY(-2px); 
+}
+
+.action-btn:active {
+  transform: translateY(2px); 
+}
+
+.action-btn-rem:hover {
+  background-color: #7a0612;
+}
+
+.product-card:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}

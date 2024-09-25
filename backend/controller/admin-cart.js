@@ -8,6 +8,10 @@ const createCart = async (req, res) => {
   try {
     const userId = req.session.userId; 
     if (!userId) return res.status(401).json({ message: 'User not authenticated' });
+    const user = await User.findById(userId);
+    if (user.duesAmount < 0) {
+      return res.status(403).json({ message: 'You have outstanding dues. Please clear them before proceeding.' });
+    }
     const { items } = req.body;
     const cart = new Cart({ userId, items });
     await cart.save();

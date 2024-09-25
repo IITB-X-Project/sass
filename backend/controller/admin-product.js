@@ -1,7 +1,5 @@
 const Product = require('../schema/product');
-const compression = require('compression');
-const express = require('express');
-const router = express.Router();
+
 
 //Flags for response
 const ResponseFlags = {
@@ -32,6 +30,7 @@ const productSchema = Joi.object({
 // Create a new product
 const createProduct = async (req, res) => {
   try {
+
     const { error, value } = await productSchema.validateAsync(req.body, { abortEarly: false });
     if (error) {
       return res.status(400).json({ 
@@ -47,6 +46,7 @@ const createProduct = async (req, res) => {
     res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
   }
 };
+
 
 
 // Get all products
@@ -92,6 +92,7 @@ const getProductById = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
+
   }
 };
 
@@ -126,6 +127,7 @@ const updateProduct = async (req, res) => {
   }
 };
 
+
 // Delete a product by ID
 const deleteProduct = async (req, res) => {
   try {
@@ -140,12 +142,14 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+
+
 // Filter products
 const filterProducts = async (req, res) => {
   try {
     const { minPrice, maxPrice, minRating, maxRating } = req.query;
     const filter = {};
-
+    
     if (minPrice && !isNaN(minPrice)) filter.price = { $gte: Number(minPrice) };
     if (maxPrice && !isNaN(maxPrice)) filter.price = { ...filter.price, $lte: Number(maxPrice) };
     if (minRating && !isNaN(minRating)) filter.averageReview = { $gte: Number(minRating) };
@@ -160,6 +164,7 @@ const filterProducts = async (req, res) => {
     res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
   }
 };
+
 
 module.exports = {
   createProduct,

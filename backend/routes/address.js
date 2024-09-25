@@ -8,9 +8,9 @@ const {
 
 const router = express.Router();
 
-router.post('/', addAddress);
-router.get('/:userId', getAddressesByUserId);
-router.put('/:userId', updateAddress);
-router.delete('/:userId', deleteAddress);
+router.post('/address', addAddress);
+router.get('/address/:userId', getAddressesByUserId);
+router.put('/address/:userId', updateAddress);
+router.delete('/address/:userId', deleteAddress);
 
 module.exports = router;

@@ -12,9 +12,9 @@ const orderRoutes=require("./routes/order")
 const cartRoutes = require('./routes/cart');
 const addressRoutes = require('./routes/address');
 app.use("/api/products", productRoutes);
-app.use("/api/search",searchRoutes );
-app.use("/api",orderRoutes );
-app.use('/api/cart', cartRoutes);
+app.use("/api/searches",searchRoutes );
+app.use("/api/orders",orderRoutes );
+app.use('/api/carts', cartRoutes);
 app.use('/api/addresses', addressRoutes);
 
 app.listen(3000, () => {

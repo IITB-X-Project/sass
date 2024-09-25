@@ -3,12 +3,12 @@ const router = express.Router();
 const {createCart,getCartByUserId,updateCart,deleteCart} = require('../controller/admin-cart');
 
 
-router.post('/',createCart);
+router.post('/cart',createCart);
 
-router.get('/:userId', getCartByUserId);
+router.get('/cart/:userId', getCartByUserId);
 
-router.put('/:userId',updateCart);
+router.put('/cart/:userId',updateCart);
 
-router.delete('/:userId',deleteCart);
+router.delete('/cart/:userId',deleteCart);
 
 module.exports = router;

@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-=======
-
-const Order = require('../schema/order');
-
-const ResponseFlags = {
-  SUCCESS: 0,
-  USER_NOT_AUTHENTICATED: 1,
-  NO_ORDERS_FOUND: 2,
-  SERVER_ERROR: 3
-};
-
-
->>>>>>> 0470978ad61758bd2907e309ce2f7753d704dd19
 
 const Order = require('../schema/order');
 const Joi = require('joi');
@@ -136,17 +122,15 @@ const updateOrder = async (req, res) => {
 // Delete Order
 const deleteOrder = async (req, res) => {
   try {
-    const { id } = req.params;
+    const deletedOrder = await Order.findByIdAndDelete(req.params.id).lean();
+    if (!deletedOrder) return res.status(404).json({ flag: ResponseFlags.ORDER_NOT_FOUND });
 
-    const deletedOrder = await Order.findByIdAndDelete(id);
-    if (!deletedOrder) return res.status(404).json({ message: 'Order not found' });
-
-    res.status(200).json({ message: 'Order deleted successfully' });
+    res.status(200).json({ flag: ResponseFlags.ORDER_DELETED });
   } catch (error) {
-    res.status(500).json({ error: 'Error deleting order' });
+    console.error('Error deleting order:', error);
+    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
   }
 };
-
 
 
 

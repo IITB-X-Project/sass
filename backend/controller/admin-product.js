@@ -131,6 +131,9 @@ const filterProducts = async (req, res) => {
     if (maxRating) {
       filter.averageReview = { ...filter.averageReview, $lte: Number(maxRating) }; 
     }
+    if (category) {
+      filter.category = category;
+    }
 console.log(filter)
     const products = await Product.find(filter);
     res.status(200).json({products});

@@ -32,10 +32,15 @@ const productSchema = Joi.object({
 // Create a new product
 const createProduct = async (req, res) => {
   try {
-    const { error } = productSchema.validate(req.body);
-    if (error) return res.status(400).json({ flag: ResponseFlags.INVALID_INPUT });
+    const { error, value } = await productSchema.validateAsync(req.body, { abortEarly: false });
+    if (error) {
+      return res.status(400).json({ 
+        flag: ResponseFlags.INVALID_INPUT,
+        errors: error.details.map(detail => detail.message)
+      });
+    }
 
-    const newProduct = await Product.create(req.body);
+    const newProduct = await Product.create(value);
     res.status(201).json({ flag: ResponseFlags.PRODUCT_CREATED, id: newProduct._id });
   } catch (error) {
     console.error(error);
@@ -96,47 +101,42 @@ const getProductById = async (req, res) => {
 // Update a product by ID
 const updateProduct = async (req, res) => {
   try {
-    const { image, title, description, category, brand, price, salePrice, totalStock, averageReview, isAvailable } = req.body;
+    const { error, value } = await productSchema.validateAsync(req.body, { abortEarly: false });
+    if (error) {
+      return res.status(400).json({ 
+        flag: ResponseFlags.INVALID_INPUT,
+        errors: error.details.map(detail => detail.message)
+      });
+    }
 
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
-      {
-        image,
-        title,
-        description,
-        category,
-        brand,
-        price,
-        salePrice,
-        totalStock,
-        averageReview,
-        isAvailable,
-      },
-      { new: true } // Return the updated product
+      value,
+      { new: true, lean: true }
     );
 
     if (!updatedProduct) {
-      return res.status(404).json({ error: 'Product not found' });
+      return res.status(404).json({ flag: ResponseFlags.PRODUCT_NOT_FOUND });
     }
 
-    res.status(200).json({ message: 'Product updated successfully', product: updatedProduct });
+    res.status(200).json({ flag: ResponseFlags.PRODUCT_UPDATED, id: updatedProduct._id });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to update product' });
+    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
   }
 };
 
 // Delete a product by ID
 const deleteProduct = async (req, res) => {
   try {
-    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+    const deletedProduct = await Product.findByIdAndDelete(req.params.id).lean();
     if (!deletedProduct) {
-      return res.status(404).json({ error: 'Product not found' });
+      return res.status(404).json({ flag: ResponseFlags.PRODUCT_NOT_FOUND });
     }
-    res.json({ message: 'Product deleted successfully' });
+    res.json({ flag: ResponseFlags.PRODUCT_DELETED });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to delete product' });
+    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
   }
 };
 
@@ -146,16 +146,18 @@ const filterProducts = async (req, res) => {
     const { minPrice, maxPrice, minRating, maxRating } = req.query;
     const filter = {};
 
-    if (minPrice) filter.price = { $gte: Number(minPrice) };
-    if (maxPrice) filter.price = { ...filter.price, $lte: Number(maxPrice) };
-    if (minRating) filter.averageReview = { $gte: Number(minRating) };
-    if (maxRating) filter.averageReview = { ...filter.averageReview, $lte: Number(maxRating) };
+    if (minPrice && !isNaN(minPrice)) filter.price = { $gte: Number(minPrice) };
+    if (maxPrice && !isNaN(maxPrice)) filter.price = { ...filter.price, $lte: Number(maxPrice) };
+    if (minRating && !isNaN(minRating)) filter.averageReview = { $gte: Number(minRating) };
+    if (maxRating && !isNaN(maxRating)) filter.averageReview = { ...filter.averageReview, $lte: Number(maxRating) };
 
-    const products = await Product.find(filter);
-    res.status(200).json({ products });
+    const products = await Product.find(filter)
+      .select('title price averageReview')
+      .lean();
+    res.status(200).json({ flag: ResponseFlags.SUCCESS, products });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'An error occurred while filtering products' });
+    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
   }
 };
 

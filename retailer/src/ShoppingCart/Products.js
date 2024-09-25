@@ -14,7 +14,7 @@ export default function Products() {
   const handleQuantityChange = (productId, amount) => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
-        product.id === productId
+        product.id === productId && product.totalStock >= amount
           ? { ...product, quantity: product.quantity + amount }
           : product
       )
@@ -22,17 +22,18 @@ export default function Products() {
   };
 
   const handleRemove = (id) => {
-    setProducts((prev) => {
-      return prev.filter((product) => product.id !== id);
-    })
+    setProducts((prev) => prev.filter((product) => product.id !== id));
   };
   
-  const totalPrice = products.reduce((total, product) => {
-    return total + product.price * product.quantity;
-  }, 0);
+  let totalPrice = 0;
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].isAvailable) {
+      totalPrice += products[i].salePrice * products[i].quantity;
+    }
+  }
 
   const discountAmount = products.reduce((discount, product) => {
-    return discount + product.price * product.quantity * product.discount;
+    return discount + product.salePrice * product.quantity * product.discount;
   }, 0);
 
   return (
@@ -40,7 +41,7 @@ export default function Products() {
       <div className="col-lg-8 col-md-7 col-sm-12">
         <div className="row">
           {products.map((product) => (
-            <div className="col-md-12 mb-3" key={product.id}>
+            <div className="col-md-12 mb-3" key={product.id} data-aos="fade-up">
               <Product
                 product={product}
                 id={product.id}
@@ -52,8 +53,8 @@ export default function Products() {
         </div>
       </div>
 
-      <div className="col-lg-4 col-md-5 col-sm-12 d-flex flex-grow-1">
-        <SideBar price={totalPrice} discount={discountAmount}/>
+      <div className="col-lg-4 col-md-5 col-sm-12 d-flex flex-grow-1" data-aos="fade-left">
+        <SideBar price={totalPrice} discount={discountAmount} />
       </div>
     </div>
   );

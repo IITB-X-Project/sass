@@ -1,33 +1,28 @@
 export default function Product({ product, id, onQuantityChange, handleRemove }) {
   return (
-    <div className="card p-3 h-100">
+    <div className="card p-3 product-card" data-aos="fade-up">
       <div className="d-flex flex-wrap gap-3 align-items-center justify-content-center justify-content-lg-start">
-        <div className="d-flex flex-column align-items-center">
+        <div className="d-flex flex-column align-items-center" data-aos="zoom-in">
           <img
-            src={product.img}
-            alt={product.name}
-            className="img-fluid"
-            style={{ width: '100%', maxWidth: '150px', height: 'auto' }}
+            src={product.image}
+            alt={product.title}
+            className="img-fluid product-image"
           />
-          <div className="d-flex align-items-center mt-3 justify-content-center">
+          <div className="d-flex align-items-center mt-3 justify-content-center quantity-controls">
             <button
-              className="btn btn-outline-secondary btn-sm me-2"
-              style={{ borderRadius: '50%' }}
+              className="btn btn-outline-secondary btn-sm quantity-btn"
               onClick={() => onQuantityChange(id, -1)}
-              disabled={product.quantity <= 1}
+              disabled={product.quantity <= 1 || !product.isAvailable}
             >
               -
             </button>
-            <span
-              className="border p-2"
-              style={{ width: '100px', textAlign: 'center', borderRadius: '1em' }}
-            >
+            <span className="quantity-display">
               {product.quantity}
             </span>
             <button
-              className="btn btn-outline-secondary btn-sm ms-2"
-              style={{ borderRadius: '50%' }}
+              className="btn btn-outline-secondary btn-sm quantity-btn"
               onClick={() => onQuantityChange(id, 1)}
+              disabled={product.quantity >= product.totalStock || !product.isAvailable}
             >
               +
             </button>
@@ -35,21 +30,16 @@ export default function Product({ product, id, onQuantityChange, handleRemove })
         </div>
 
         <div className="flex-grow-1 d-flex flex-column justify-content-between align-items-lg-start align-items-center text-center text-lg-start">
-          <h3
-            style={{
-              fontSize: '3rem',
-              letterSpacing: '0.2rem',
-              wordBreak: 'break-word',
-              margin: 'auto',
-              marginBottom: '1rem'
-            }}
-          >
-            {product.name}
+          {!product.isAvailable && (
+            <h5 className="text-danger out-of-stock mx-auto">Out of stock</h5>
+          )}
+          <h3 className="product-title mx-auto">
+            {product.title}
           </h3>
-          <p className="mb-5 mx-auto">Price: ${product.price}</p>
+          <p className="product-price mx-auto">Price: ${product.salePrice}</p>
           <div className="d-flex gap-3 mx-auto">
-            <button className="btn btn-info">Save for later</button>
-            <button className="btn btn-danger ms-2" onClick={() => handleRemove(id)}>Remove</button>
+            <button className="btn btn-info action-btn">Save for later</button>
+            <button className="btn btn-danger ms-2 action-btn-rem action-btn" onClick={() => handleRemove(id)}>Remove</button>
           </div>
         </div>
       </div>

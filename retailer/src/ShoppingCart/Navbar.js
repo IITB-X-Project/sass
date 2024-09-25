@@ -1,5 +1,7 @@
 export default function Navbar() {
     return (
-        <h1>Navbar</h1>
-    )
+        <div data-aos="fade-down">
+            <h1>Navbar</h1>
+        </div>
+    );
 }

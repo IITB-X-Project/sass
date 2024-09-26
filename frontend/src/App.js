@@ -1,18 +1,18 @@
 import React from 'react';
-import Navbar from './Navbar';
-import FilterSidebar from './FilterSidebar';
-import Card from './Card';
+import Navbar from './components/Navbar';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import FilterSidebar from './components/FilterSidebar';
+import Home from './components/Home';
+
 const App = () => {
   return (
-    <div>
+    <Router>
       <Navbar />
-      <div className="container mx-auto mt-6 flex">
-        <FilterSidebar />
-        <div className="flex-1 p-4">
-          <Card/>
-        </div>
-      </div>
-    </div>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/products" element={<FilterSidebar />} />
+      </Routes>
+    </Router>
   );
 };
 

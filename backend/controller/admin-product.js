@@ -1,101 +1,61 @@
-const Product = require('../schema/product');
-const Joi = require('joi');
+const Product = require('../schema/product'); 
 
 
-//Flags for response
-const ResponseFlags = {
-  SUCCESS: 0,
-  PRODUCT_CREATED: 1,
-  PRODUCT_UPDATED: 2,
-  PRODUCT_DELETED: 3,
-  PRODUCT_NOT_FOUND: 4,
-  INVALID_INPUT: 5,
-  SERVER_ERROR: 6,
-};
-
-
-
-//validating the imput using joi
-const productSchema = Joi.object({
-  image: Joi.string().required(),
-  title: Joi.string().required(),
-  description: Joi.string().required(),
-  category: Joi.string().required(),
-  brand: Joi.string().required(),
-  price: Joi.number().min(0).required(),
-  salePrice: Joi.number().min(0),
-  totalStock: Joi.number().integer().min(0).required(),
-  averageReview: Joi.number().min(0).max(5),
-  isAvailable: Joi.boolean().required()
-});
 
 
 // Create a new product
 const createProduct = async (req, res) => {
   try {
-
-    const { error, value } = await productSchema.validateAsync(req.body, { abortEarly: false });
-    if (error) {
-      return res.status(400).json({ 
-        flag: ResponseFlags.INVALID_INPUT,
-        errors: error.details.map(detail => detail.message)
+    const { image, title, description, category, brand, price, salePrice, totalStock, averageReview, isAvailable } = req.body;
+    const tags = [title, category, brand, description];
+    console.log("Tags:", tags);
+    const newProduct = await Product.create({
+        image,
+        title,
+        description,
+        category,
+        brand,
+        price,
+        salePrice,
+        totalStock,
+        averageReview,
+        isAvailable,
+        tags,
       });
-    }
 
-    const newProduct = await Product.create(value);
-    res.status(201).json({ flag: ResponseFlags.PRODUCT_CREATED, id: newProduct._id });
+    res.status(201).json({ message: 'Product created successfully', product: newProduct });
+
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
+    res.status(500).json({ error: 'Failed to create product' });
   }
 };
+
 
 
 
 // Get all products
 const getAllProducts = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
-
-    const [products, total] = await Promise.all([
-      Product.find()
-        .select('title price averageReview')
-        .lean()
-        .skip(skip)
-        .limit(limit),
-      Product.countDocuments()
-    ]);
-
-    res.status(200).json({
-      flag: ResponseFlags.SUCCESS,
-      products,
-      currentPage: page,
-      totalPages: Math.ceil(total / limit),
-      totalProducts: total
-    });
+    const products = await Product.find();
+    res.status(200).json({products});
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
+    res.status(500).json({ error: 'Failed to fetch products' });
   }
 };
+
+
+
 
 // Get a single product by ID
 const getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id)
-      .select('title price description')
-      .lean();
-    
+    const product = await Product.findById(req.params.id);
     if (!product) {
-      return res.status(404).json({ flag: ResponseFlags.PRODUCT_NOT_FOUND });
+      return res.status(404).json({ error: 'Product not found' });
     }
-    res.status(200).json({ flag: ResponseFlags.SUCCESS, product });
+    res.status(200).json({ product });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
-
+    res.status(500).json({ error: 'Failed to fetch product' });
   }
 };
 
@@ -104,69 +64,87 @@ const getProductById = async (req, res) => {
 
 // Update a product by ID
 const updateProduct = async (req, res) => {
-  try {
-    const { error, value } = await productSchema.validateAsync(req.body, { abortEarly: false });
-    if (error) {
-      return res.status(400).json({ 
-        flag: ResponseFlags.INVALID_INPUT,
-        errors: error.details.map(detail => detail.message)
-      });
+    try {
+      const { image, title, description, category, brand, price, salePrice, totalStock, averageReview, isAvailable } = req.body;
+  
+      const product = await Product.findByIdAndUpdate(
+        req.params.id,
+        {
+          image,
+          title,
+          description,
+          category,
+          brand,
+          price,
+          salePrice,
+          totalStock,
+          averageReview,
+          isAvailable,
+        },
+        { new: true} 
+      );
+  
+      if (!product) {
+        return res.status(404).json({ error: 'Product not found' }); 
+      }
+      
+      res.status(200).json({ message: 'Product updated successfully', product }); 
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to update product' });
     }
+  };
+  
 
-    const updatedProduct = await Product.findByIdAndUpdate(
-      req.params.id,
-      value,
-      { new: true, lean: true }
-    );
-
-    if (!updatedProduct) {
-      return res.status(404).json({ flag: ResponseFlags.PRODUCT_NOT_FOUND });
-    }
-
-    res.status(200).json({ flag: ResponseFlags.PRODUCT_UPDATED, id: updatedProduct._id });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
-  }
-};
 
 
 // Delete a product by ID
 const deleteProduct = async (req, res) => {
   try {
-    const deletedProduct = await Product.findByIdAndDelete(req.params.id).lean();
-    if (!deletedProduct) {
-      return res.status(404).json({ flag: ResponseFlags.PRODUCT_NOT_FOUND });
+    const product = await Product.findByIdAndDelete(req.params.id);
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
     }
-    res.json({ flag: ResponseFlags.PRODUCT_DELETED });
+    res.json({ message: 'Product deleted successfully' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
+    res.status(500).json({ error: 'Failed to delete product' });
   }
 };
 
 
 
-// Filter products
+
+// Filtering the products
 const filterProducts = async (req, res) => {
   try {
-    const { minPrice, maxPrice, minRating, maxRating } = req.query;
+    const { minPrice, maxPrice, minRating, maxRating, category } = req.query;
     const filter = {};
-    
-    if (minPrice && !isNaN(minPrice)) filter.price = { $gte: Number(minPrice) };
-    if (maxPrice && !isNaN(maxPrice)) filter.price = { ...filter.price, $lte: Number(maxPrice) };
-    if (minRating && !isNaN(minRating)) filter.averageReview = { $gte: Number(minRating) };
-    if (maxRating && !isNaN(maxRating)) filter.averageReview = { ...filter.averageReview, $lte: Number(maxRating) };
 
-    const products = await Product.find(filter)
-      .select('title price averageReview')
-      .lean();
-    res.status(200).json({ flag: ResponseFlags.SUCCESS, products });
+    if (minPrice) {
+      filter.price = { $gte: Number(minPrice) }; 
+    }
+    if (maxPrice) {
+      filter.price = { ...filter.price, $lte: Number(maxPrice) }; 
+    }
+    if (minRating) {
+      filter.averageReview = { $gte: Number(minRating) }; 
+    }
+    if (maxRating) {
+      filter.averageReview = { ...filter.averageReview, $lte: Number(maxRating) }; 
+    }
+    if (category) {
+      filter.category = category; 
+    }
+
+    console.log(filter);
+    const products = await Product.find(filter);
+    res.status(200).json({ products });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ flag: ResponseFlags.SERVER_ERROR });
+    res.status(500).json({ error: 'An error occurred while filtering products' });
   }
 };
+
+
+
 
 
 module.exports = {

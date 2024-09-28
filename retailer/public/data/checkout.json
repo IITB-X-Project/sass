@@ -1,0 +1,32 @@
+{
+    "order_summary": {
+        "delivery_date": "2024-09-29",
+        "delivery_addresses": [
+            {
+                "address_id": 1,
+                "address": "123 Main Street, Springfield, IL, USA",
+                "isSelected": true
+            },
+            {
+                "address_id": 2,
+                "address": "456 Oak Avenue, Lincoln, NE, USA",
+                "isSelected": false
+            },
+            {
+                "address_id": 3,
+                "address": "789 Pine Lane, Denver, CO, USA",
+                "isSelected": false
+            },
+            {
+                "address_id": 4,
+                "address": "001 Antartica Street, First, King",
+                "isSelected": false
+            },
+            {
+                "address_id": 5,
+                "address": "7009 Bombay Lane, Colorado Springs, CO, USA",
+                "isSelected": false
+            }
+        ]
+    }
+}

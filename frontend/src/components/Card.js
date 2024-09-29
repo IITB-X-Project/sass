@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaStar } from 'react-icons/fa';
+import { Link } from "react-router-dom";
 
 export const ProductCard = ({ product }) => {
   return (
@@ -17,9 +18,9 @@ export const ProductCard = ({ product }) => {
           <span>{product.rating}</span>
         </div>
       </div>
-      <button className="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+      <Link className="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300" to="/cart">
         Add to Cart
-      </button>
+      </Link>
     </div>
   );
 };

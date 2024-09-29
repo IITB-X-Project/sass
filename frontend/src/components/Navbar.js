@@ -1,6 +1,7 @@
 import React from 'react';
-import { FaUserCircle, FaShoppingCart } from 'react-icons/fa';
-import logo from '../assets/logo.png'; 
+import { FaShoppingCart, FaUserCircle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import logo from '../assets/logo.png';
 
 const Navbar = () => {
   return (
@@ -29,7 +30,7 @@ const Navbar = () => {
           </div>
           <div className="text-white flex items-center cursor-pointer">
             <FaShoppingCart size={24} />
-            <span className="ml-2">Cart</span>
+            <Link className="ml-2" to="/cart">Cart</Link>
           </div>
         </div>
       </div>

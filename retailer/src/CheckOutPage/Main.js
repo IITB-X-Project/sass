@@ -1,9 +1,9 @@
 import React from 'react';
+import SideBar from '../ShoppingCart/SideBar.js';
 import DeliveryDateSection from './DelieveryDateSection.js';
 import './Main.css';
-import Sidebar from './Sidebar.js';
 
-export default function Main() {
+export default function Main({ totalPrice, discount }) {
     const [data, setData] = React.useState(null);
 
     React.useEffect(() => {
@@ -13,7 +13,7 @@ export default function Main() {
     }, []);
 
     if (!data) {
-        return <div>Loading...</div>; 
+        return <div>Loading...</div>;
     }
 
     const handleClick = (id) => {
@@ -23,7 +23,7 @@ export default function Main() {
             } else if (address.address_id !== id && address.isSelected === true) {
                 return { ...address, isSelected: false };
             }
-            return address; 
+            return address;
         });
 
         setData({
@@ -44,12 +44,12 @@ export default function Main() {
                 <div className="col-md-8 address-section d-flex flex-column">
                     {data.order_summary.delivery_addresses.map((address) => (
                         <div key={address.address_id} className="address-card" onClick={() => handleClick(address.address_id)}>
-                            <h5 className={address.isSelected ? "selected": ""}>{address.address}</h5>
+                            <h5 className={address.isSelected ? "selected" : ""}>{address.address}</h5>
                         </div>
                     ))}
                 </div>
                 <div className="col-md-4 sidebar-section d-flex flex-column" data-aos="fade-left">
-                    <Sidebar />
+                    <SideBar totalPrice={totalPrice} discount={discount} />
                 </div>
             </div>
         </div>

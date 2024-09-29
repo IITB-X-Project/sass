@@ -86,6 +86,7 @@ code {
 }
 
 .delivery-date:hover {
+    color: #0056b3;
     transform: scale(1.02);
     transition: transform 0.3s ease;
 }

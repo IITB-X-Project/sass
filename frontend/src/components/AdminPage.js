@@ -10,6 +10,11 @@ const AdminPage = () => {
     { id: 2, product: 'Product 2', customer: 'Customer B', status: 'Pending' },
     { id: 3, product: 'Product 3', customer: 'Customer C', status: 'Pending' },
   ]);
+  const handleStatusChange = (id, newStatus) => {
+    setOrders(orders.map(order =>
+      order.id === id ? { ...order, status: newStatus } : order
+    ));
+  };
 
   const handleAccept = (id) => {
     setOrders(orders.map(order =>
@@ -35,7 +40,6 @@ const AdminPage = () => {
             <FaInbox className="mr-2" /> INCOMING ORDERS
           </button>
 
- 
           <button
             className="w-1/2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 rounded-lg flex items-center justify-center hover:from-blue-600 hover:to-indigo-700 transition duration-300 ease-in-out shadow-md"
             onClick={() => navigate('/OrdersSumm')}
@@ -53,7 +57,18 @@ const AdminPage = () => {
                 <div className="text-gray-800">
                   <p className="text-lg font-semibold">Product: {order.product}</p>
                   <p className="text-md">Customer: {order.customer}</p>
-                  <p className="text-md">Status: <span className={`font-bold ${order.status === 'Pending' ? 'text-yellow-500' : order.status === 'Accepted' ? 'text-green-500' : 'text-red-500'}`}>{order.status}</span></p>
+                  <div className="mt-2">
+                    <label className="text-md font-bold mr-2">Set Status:</label>
+                    <select
+                      value={order.status}
+                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                      className="bg-gray-100 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="On Way">On Way</option>
+                      <option value="Delivered">Delivered</option>
+                    </select>
+                  </div>
                 </div>
                 <div className="flex space-x-4">
                   <button

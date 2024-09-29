@@ -5,6 +5,7 @@ import FilterSidebar from './components/FilterSidebar';
 import Home from './components/Home';
 import AdminPage from './components/AdminPage';
 import OrdersSumm from './components/OdersSumm';
+import RandomAccount from './components/RandomAccount';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route exact path="/products" element={<FilterSidebar />} />
         <Route exact path="/adminpage" element={<AdminPage/>}/>
         <Route exact path='/OrdersSumm' element={<OrdersSumm/>} />
+        <Route exact path='/RandomAccount' element={<RandomAccount/>} />
       </Routes>
     </Router>
   );

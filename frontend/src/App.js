@@ -4,9 +4,6 @@ import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import CheckoutPage from '../../frontend/src/components/CheckOutPage/CheckOutPage.js';
 import ShoppingCartPage from '../../frontend/src/components/ShoppingCart/ShoppingCartPage.js';
-import FilterSidebar from './components/FilterSidebar';
-import Home from './components/Home';
-import Navbar from './components/Navbar';
 
 
 const App = () => {
@@ -53,10 +50,7 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar />
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/products" element={<FilterSidebar />} />
         <Route
             path="/cart"
             element={

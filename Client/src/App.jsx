@@ -18,6 +18,7 @@ import HomeFurnitureDetail from "./components/HomeFurnitureDetail";
 
 import FilterSidebar from "./components/FilterSidebar";
 import Header from "./components/Header";
+import SearchResults from "./pages/searchPage";
 
 
 
@@ -45,6 +46,7 @@ function App() {
           <Route path="/home-furniture" element={<HomeFurniture/>} />
 
           <Route path="/products" element={<FilterSidebar />} />
+          <Route path="/search" element={<SearchResults />} />
           
         </Routes>
       </BrowserRouter>

@@ -1,7 +1,21 @@
 import React from 'react';
 import { FaStar } from 'react-icons/fa';
 
+
 const ProductCard = ({ product }) => {
+  const handleAddToCart = async () => {
+    try {
+      const response = await axios.post('/api/carts/cart', {
+        items: [{ productId: product.id, quantity: 1 }],
+      });
+      console.log('Cart created successfully:', response.data);
+      // Optionally handle success (e.g., show a message or update state)
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      // Optionally handle error (e.g., show an error message)
+    }
+  };
+
   return (
     <div className="bg-white shadow-md rounded-lg p-4 flex flex-col justify-between h-full">
       <img
@@ -17,12 +31,19 @@ const ProductCard = ({ product }) => {
           <span>{product.rating}</span>
         </div>
       </div>
-      <button className="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+      <button
+        className="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+        onClick={handleAddToCart}
+      >
         Add to Cart
       </button>
     </div>
   );
 };
+
+// Other components (Pagination, ProductGrid) remain unchanged
+
+
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     return (

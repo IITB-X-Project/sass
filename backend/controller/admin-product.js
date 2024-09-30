@@ -1,8 +1,4 @@
 const Product = require('../schema/product'); 
-
-
-
-
 // Create a new product
 const createProduct = async (req, res) => {
   try {

@@ -1,0 +1,10 @@
+.checkout-page {
+    background-image: url('../assets/joshua-hoehne-GoGYvir1teM-unsplash.jpg'); 
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    padding: 2rem;
+    background-attachment: fixed;
+  }
+  
+  

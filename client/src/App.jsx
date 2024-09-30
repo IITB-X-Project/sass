@@ -9,7 +9,7 @@ import Appliances from "./pages/Appliciances";
 import Groceries from "./pages/groceries";
 import Mobiles from "./pages/mobiles";
 
-
+import ProductDetail from "./components/ProductDetail"
 import FilterSidebar from "./components/FilterSidebar";
 import SearchResults from "./pages/searchPage";
 
@@ -32,6 +32,7 @@ function App() {
           <Route path="/home-furniture" element={<HomeFurniture/>} />
           <Route path="/products" element={<FilterSidebar />} />
           <Route path="/search" element={<SearchResults />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
           
         </Routes>
       </BrowserRouter>

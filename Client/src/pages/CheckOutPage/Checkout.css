@@ -37,7 +37,7 @@ code {
 .checkout-page .address-section {
     display: flex; /* Make it a flex container */
     flex-direction: column; /* Stack content vertically */
-    gap: 15px; /* Space between address cards */
+    gap: 10px; /* Space between address cards */
 }
 
 .checkout-page .address-card {
@@ -155,7 +155,7 @@ code {
     transition: transform 0.3s ease;
 }
 
-.checkout-page .header-container {
+.checkout-page .header h1{
     font-family: "Teko", "sans-serif";
     font-weight: 500;
     letter-spacing: 0.3rem;
@@ -163,13 +163,12 @@ code {
     flex-direction: row;
     align-items: center;
     padding: 10px 20px;
-    color: #333;
+    color: rgba(255, 255, 255, 0.85);
 }
 
-.checkout-page .header-container h1:hover {
+.checkout-page .header h1:hover {
     transform: scale(1.05);
     opacity: 0.8;
-    border-bottom: yellow 5px solid;
     transition: transform 0.3s ease, border-bottom 0.3s ease, opacity 0.3s ease;
 }
 

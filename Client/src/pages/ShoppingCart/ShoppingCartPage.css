@@ -60,22 +60,14 @@ code {
   cursor: pointer; /* Change cursor to pointer for clickable cards */
 }
 
-/* Enlarged state for product card */
-.shopping-cart-page .product-card.enlarged {
-  transform: scale(1.04); /* Scale up on click */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
 /* Product image */
 .shopping-cart-page .product-image {
+  border: 3px solid black;
+  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 150px;
   height: auto;
   transition: transform 0.3s ease-in-out;
-}
-
-.shopping-cart-page .product-image:hover {
-  transform: scale(1.1);
 }
 
 /* Out of stock message */
@@ -88,22 +80,13 @@ code {
   padding: 0.5rem;
   border: 2px solid #ff0000;
   background-color: rgba(255, 0, 0, 0.1);
-  animation: rotate-scale 2s infinite; /* Add bounce animation */
 }
 
-
-@keyframes rotate-scale {
-  0% {
-    transform: rotate(0deg) translateY(0) scale(1);
-  }
-  50% {
-    transform: rotate(360deg) translateY(-10px) scale(1.2); /* Enlarge */
-  }
-  100% {
-    transform: rotate(720deg) translateY(-5px) scale(1); /* Return to original size */
-  }
+.shopping-cart-page .out-of-stock:hover {
+  transform: scale(1.04);
+  background-color: rgba(255, 0, 0, 0.2);
+  transition: transform 0.3s ease;
 }
-
 
 /* Product title */
 .shopping-cart-page .product-title {

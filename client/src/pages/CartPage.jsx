@@ -2,7 +2,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import { useCart } from '../contexts/CartContext';
-import { useCallback } from 'react';
+import { useCallback , useState} from 'react';
 
 const CartPage = () => {
     const { cart, addedMessage } = useCart(); // Get cart items and message from context

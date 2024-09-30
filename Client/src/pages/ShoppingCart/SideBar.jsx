@@ -1,4 +1,3 @@
-import React from 'react';
 import './ShoppingCartPage.css';
 
 export default function SideBar({totalPrice, discount}) {

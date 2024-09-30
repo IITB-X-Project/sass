@@ -1,7 +1,7 @@
 import React from 'react';
-import SideBar from '../ShoppingCart/SideBar.js';
+import SideBar from '../ShoppingCart/SideBar.jsx';
 import './Checkout.css';
-import DeliveryDateSection from './DelieveryDateSection.js';
+import DeliveryDateSection from './DelieveryDateSection.jsx';
 
 export default function Main({ totalPrice, discount }) {
     const [data, setData] = React.useState(null);

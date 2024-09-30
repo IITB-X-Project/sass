@@ -1,6 +1,6 @@
 import './Checkout.css';
-import Header from "./Header";
-import Main from "./Main";
+import Header from "./Header.jsx";
+import Main from "./Main.jsx";
 
 export default function CheckOutPage({ totalPrice, discount }) {
     return (

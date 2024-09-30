@@ -19,10 +19,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "user",
   },
-  isSeller: {  
-    type: Boolean,
-    default: false,
-  },
+  // isSeller: {  
+  //   type: Boolean,
+  //   default: false,
+  // },
   duesAmount: { 
     type: Number,
     default: 0,

@@ -75,13 +75,13 @@ const Fashion = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                             {products.map(product => (
                                 <div
-                                    key={product.id}
+                                    key={product._id}
                                     className="bg-white bg-opacity-90 shadow-md rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-lg transform hover:scale-105 transition-transform duration-300"
                                 >
-                                    <Link to={`/products/${product.id}`}>
+                                    <Link to={`/products/${product._id}`}>
                                         {/* Reduced Image Height */}
                                         <img
-                                            src={product.image }
+                                            src={product.image[0] }
                                             alt={product.title}
                                             className="w-full h-32 sm:h-36 object-cover rounded-md mb-3 sm:mb-4"
                                         />
@@ -106,4 +106,3 @@ const Fashion = () => {
 };
 
 export default Fashion;
-

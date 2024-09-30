@@ -18,7 +18,7 @@ const CartPage = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         {cart.map((product, index) => (
                             <div key={index} className="bg-white shadow-lg rounded-lg p-4">
-                                <img src={product.image} alt={product.name} className="w-full h-40 object-cover rounded-md mb-2" />
+                                <img src={product.image[0]} alt={product.name} className="w-full h-40 object-cover rounded-md mb-2" />
                                 <h2 className="font-semibold text-lg">{product.name}</h2>
                                 <p className="text-gray-500">{product.price}</p>
                                 <p className="text-gray-500">Size: {product.size}</p> {/* Display the selected size */}

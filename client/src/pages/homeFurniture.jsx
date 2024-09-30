@@ -75,12 +75,12 @@ const HomeFurniture = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                             {products.map(product => (
                                 <div
-                                    key={product.id}
+                                    key={product._id}
                                     className="bg-white bg-opacity-90 shadow-xl rounded-xl border-2 border-gray-200 p-4 hover:shadow-2xl transform hover:scale-105 transition-transform duration-300"
                                 >
-                                    <Link to={`/homefurniture/${product.id}`}>
+                                    <Link to={`/products/${product._id}`}>
                                         <img
-                                            src={product.image}
+                                            src={product.image[0]}
                                             alt={product.title}
                                             className="w-full h-40 object-cover rounded-md mb-4"
                                         />
@@ -100,5 +100,4 @@ const HomeFurniture = () => {
 };
 
 export default HomeFurniture;
-
 

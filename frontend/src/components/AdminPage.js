@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaInbox, FaClipboardList, FaPlus } from 'react-icons/fa';
+import { FaInbox, FaClipboardList, FaPlus, FaList } from 'react-icons/fa'; // Added FaList icon for Fetch All Products
 import { useNavigate } from 'react-router-dom';
 
 const AdminPage = () => {
@@ -29,30 +29,50 @@ const AdminPage = () => {
     ));
   };
 
+  // Fetch all products handler (you can integrate API call here)
+  const fetchAllProducts = () => {
+    console.log('Fetching all products...');
+    // You can replace this with actual API fetching logic
+    const dummyProducts = [
+      { id: 1, name: 'Product A', price: 50 },
+      { id: 2, name: 'Product B', price: 100 },
+      { id: 3, name: 'Product C', price: 150 },
+    ];
+    console.log(dummyProducts);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">Admin Dashboard</h1>
         <div className="flex justify-between mb-8">
           <button
-            className="w-1/3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 rounded-lg flex items-center justify-center hover:from-blue-600 hover:to-indigo-700 transition duration-300 ease-in-out shadow-md mr-4"
+            className="w-1/4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 rounded-lg flex items-center justify-center hover:from-blue-600 hover:to-indigo-700 transition duration-300 ease-in-out shadow-md mr-4"
             onClick={() => navigate('/adminpage')}
           >
             <FaInbox className="mr-2" /> INCOMING ORDERS
           </button>
 
           <button
-            className="w-1/3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 rounded-lg flex items-center justify-center hover:from-blue-600 hover:to-indigo-700 transition duration-300 ease-in-out shadow-md mr-4"
+            className="w-1/4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-3 rounded-lg flex items-center justify-center hover:from-blue-600 hover:to-indigo-700 transition duration-300 ease-in-out shadow-md mr-4"
             onClick={() => navigate('/OrdersSumm')}
           >
             <FaClipboardList className="mr-2" /> ORDERS SUMMARY
           </button>
 
           <button
-            className="w-1/3 bg-gradient-to-r from-green-500 to-teal-600 text-white py-3 rounded-lg flex items-center justify-center hover:from-green-600 hover:to-teal-700 transition duration-300 ease-in-out shadow-md"
+            className="w-1/4 bg-gradient-to-r from-green-500 to-teal-600 text-white py-3 rounded-lg flex items-center justify-center hover:from-green-600 hover:to-teal-700 transition duration-300 ease-in-out shadow-md"
             onClick={() => navigate('/AddProduct')}
           >
             <FaPlus className="mr-2" /> ADD NEW PRODUCT
+          </button>
+
+          {/* Fetch All Products Button */}
+          <button
+            className="w-1/4 bg-gradient-to-r from-yellow-500 to-orange-600 text-white py-3 rounded-lg flex items-center justify-center hover:from-yellow-600 hover:to-orange-700 transition duration-300 ease-in-out shadow-md ml-4"
+            onClick={fetchAllProducts}
+          >
+            <FaList className="mr-2" /> FETCH ALL PRODUCTS
           </button>
         </div>
 

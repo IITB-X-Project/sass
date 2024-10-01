@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  let isAdmin = 1; // Change this dynamically based on authentication
+  let isAdmin = 1; // Change this dynamically later based on authentication
 
   const handleDashboardClick = () => {
     if (isAdmin) {

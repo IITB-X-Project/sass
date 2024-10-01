@@ -1,6 +1,6 @@
-import React from 'react';
-import Product from './Product.js';
-import SideBar from './SideBar.js'; // Ensure this import is added
+import Product from './Product.jsx';
+import './ShoppingCartPage.css';
+import SideBar from './SideBar.jsx'; // Ensure this import is added
 
 export default function Products({ products, handleQuantityChange, handleRemove, totalPrice, discount }) {
   return (

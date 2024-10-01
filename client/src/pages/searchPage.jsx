@@ -3,8 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 
 const SearchResults = () => {
     const location = useLocation();
-    const products = location.state?.products || []; // Safely access products
-    console.log('Fetched Products:', products); // Log fetched products
+    const products = location.state?.products || []; 
+    console.log('Fetched Products:', products); 
 
     return (
         <div className="flex-1 p-4 sm:p-8 lg:p-16">

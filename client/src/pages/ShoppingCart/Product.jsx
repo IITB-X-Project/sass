@@ -1,10 +1,11 @@
+import './ShoppingCartPage.css';
+
 export default function Product({ product, id, onQuantityChange, handleRemove }) {
   return (
     <div className="card p-3 product-card" data-aos="fade-up">
       <div className="d-flex flex-wrap gap-3 align-items-center justify-content-center justify-content-lg-start">
         <div className="d-flex flex-column align-items-center" data-aos="zoom-in">
           <img
-
             loading="lazy"
             src={product.image}
             alt={product.title}
@@ -39,7 +40,7 @@ export default function Product({ product, id, onQuantityChange, handleRemove })
           <h3 className="product-title mx-auto">
             {product.title}
           </h3>
-          <p className="product-price mx-auto">Price: ${product.salePrice}</p>
+          <p className="product-price mx-auto">Price: ₹{product.salePrice}</p>
           <div className="d-flex gap-3 mx-auto">
             <button className="btn btn-info action-btn">Save for later</button>
             <button className="btn btn-danger ms-2 action-btn-rem action-btn" onClick={() => handleRemove(id)}>Remove</button>

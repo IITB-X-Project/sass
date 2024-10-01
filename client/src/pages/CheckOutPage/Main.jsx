@@ -1,7 +1,7 @@
 import React from 'react';
-import SideBar from '../ShoppingCart/SideBar.js';
-import DeliveryDateSection from './DelieveryDateSection.js';
-import './Main.css';
+import SideBar from '../ShoppingCart/SideBar.jsx';
+import './CheckOutPage.css';
+import DeliveryDateSection from './DelieveryDateSection.jsx';
 
 export default function Main({ totalPrice, discount }) {
     const [data, setData] = React.useState(null);
@@ -44,7 +44,7 @@ export default function Main({ totalPrice, discount }) {
                 <div className="col-md-8 address-section d-flex flex-column">
                     {data.order_summary.delivery_addresses.map((address) => (
                         <div key={address.address_id} className="address-card" onClick={() => handleClick(address.address_id)}>
-                            <h5 className={address.isSelected ? "selected" : ""}>{address.address}</h5>
+                            <h3 className={address.isSelected ? "selected" : ""}>{address.address}</h3>
                         </div>
                     ))}
                 </div>

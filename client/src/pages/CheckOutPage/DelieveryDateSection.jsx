@@ -1,3 +1,5 @@
+import './CheckOutPage.css';
+
 export default function DeliveryDateSection({ date }) {
     return (
         <div className="delivery-date">

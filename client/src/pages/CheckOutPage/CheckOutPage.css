@@ -1,0 +1,161 @@
+.checkout-page .main-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px; /* Max width for better readability */
+  margin: auto; /* Centering the container */
+  padding: 20px;
+}
+
+.checkout-page .delivery-section {
+  font-family: "Spicy Rice", "sans-serif";
+  font-weight: 300;
+  letter-spacing: 0.3rem;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.checkout-page .row {
+  display: flex; /* Use Flexbox to align children */
+  align-items: stretch; /* Ensure both columns stretch to the same height */
+}
+
+.checkout-page .address-section {
+  display: flex; /* Make it a flex container */
+  flex-direction: column; /* Stack content vertically */
+  gap: 10px; /* Space between address cards */
+}
+
+.checkout-page .address-card {
+  display: flex;
+  font-size: 1.5rem;
+  font-family: "Teko", "sans-serif";
+  font-weight: 500;
+  justify-content: center;
+  align-items: center;
+  min-height: 5em;
+  background-color: rgba(255, 255, 255, 0.85); /* White background for address cards */
+  padding: 20px;
+  margin-bottom: 2em;
+  border-radius: 8px; /* More rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Deeper shadow for depth */
+  transition: transform 0.3s ease; /* Smooth hover effect */
+}
+
+.checkout-page .address-card:hover {
+  transform: scale(1.02); /* Slightly enlarge on hover */
+}
+
+.checkout-page .address-card:hover h3 {
+  color: orangered;
+  padding-bottom: 0.2rem; 
+  transform: scale(1.1); 
+  transition: transform 0.3s ease, color 0.3s ease; 
+}
+
+.checkout-page .selected {
+  color: orangered; /* Change color on hover */
+  padding-bottom: 0.2rem; /* Adjust padding to create space for the border */
+  transform: scale(1.1); /* Slightly enlarge the text on hover */
+  transition: transform 0.3s ease, color 0.3s ease; /* Smooth transitions for color and transform */
+}
+
+.checkout-page .sidebar-section {
+  display: flex; /* Ensure the sidebar is a flex container */
+  flex-direction: column; /* Stack content vertically */
+  padding-left: 20px; /* Add space between the address and sidebar */
+  min-height: 300px; /* Ensure a minimum height for sidebar to match the address section */
+}
+
+.checkout-page .sidebar-card {
+  font-family: "Teko", "sans-serif";
+  font-weight: 400;
+  letter-spacing: 0.3rem;
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.checkout-page .sidebar-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Sidebar header */
+.checkout-page .sidebar-header {
+  margin-bottom: 3rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #007bff;
+  background-color: rgba(0, 123, 255, 0.05);
+  text-align: center;
+}
+
+.checkout-page .sidebar-header h4 {
+  font-size: 1.5rem;
+  color: #007bff;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+/* Sidebar body */
+.checkout-page .sidebar-body {
+  gap: 2rem;
+}
+
+.checkout-page .sidebar-body p {
+  font-size: 1.2rem;
+  color: #333;
+  padding: 0.8rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.checkout-page .sidebar-body p:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.checkout-page .sidebar-body strong {
+  color: #007bff;
+}
+
+
+.checkout-page .delivery-date {
+  margin: 20px 0;
+  padding: 15px; 
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.85); 
+  border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center; 
+  transition: background-color 0.3s ease;
+}
+
+.checkout-page .delivery-date:hover {
+  color: #0056b3;
+  transform: scale(1.03);
+  transition: transform 0.3s ease;
+}
+
+.checkout-page .header h1{
+  font-family: "Teko", "sans-serif";
+  font-weight: 500;
+  letter-spacing: 0.3rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.checkout-page .header h1:hover {
+  transform: scale(1.05);
+  opacity: 0.8;
+  border-bottom: 2px solid #007bff;
+  transition: transform 0.3s ease, border-bottom 0.3s ease, opacity 0.3s ease;
+}
+

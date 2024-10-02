@@ -12,9 +12,6 @@ export default function Products() {
     const fetchCart = async () => {
       try {
         const response = await axios.get('http://localhost:3000/api/carts/cart/:userId');
-        if(response.data.items.length == 0) {
-          await axios.post('http://localhost:3000/api/carts/cart');
-        }
         setProducts(response.data.items);
       } catch (error) {
         console.error('Error fetching cart:', error);

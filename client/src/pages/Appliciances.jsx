@@ -58,7 +58,7 @@ const Appliances = () => {
                 backgroundPosition: 'center',
             }}>
                 {/* Filter Sidebar */}
-                <FilterSidebar />
+                <FilterSidebar products={products} setFilteredProducts={setProducts} />
 
                 {/* Products Grid */}
                 <div className="flex-1 p-4 sm:p-8 lg:p-16">

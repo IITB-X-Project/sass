@@ -1,150 +1,122 @@
+// FilterSidebar.js
 import React, { useState } from 'react';
 
-// import ProductGrid from './ProductGrid';
+const FilterSidebar = ({ products, setFilteredProducts }) => {
+    // State to track selected filter options
+    const [sort, setSort] = useState('');
+    const [selectedRating, setSelectedRating] = useState('');
+    const [priceRange, setPriceRange] = useState('');
 
-const FilterSidebar = () => {
-  const [isSortOpen, setIsSortOpen] = useState(true);
-  const [isBrandOpen, setIsBrandOpen] = useState(true);
-  const [isSizeOpen, setIsSizeOpen] = useState(true);
-  const [isRatingOpen, setIsRatingOpen] = useState(true);
-  const [isPriceOpen, setIsPriceOpen] = useState(true);
-  const [filters, setFilters] = useState({
-    brand: [],
-    size: [],
-    rating: null,
-    priceRange: null,
-    keyword: '',
-  });
+    // Function to apply filters based on selected options
+    const applyFilters = () => {
+        let filteredProducts = [...products];
 
-  const toggleFilter = (filterType, value) => {
-    setFilters(prev => {
-      const newFilters = { ...prev };
-      if (filterType === 'brand') {
-        newFilters.brand.includes(value)
-          ? (newFilters.brand = newFilters.brand.filter(b => b !== value))
-          : newFilters.brand.push(value);
-      } else if (filterType === 'size') {
-        newFilters.size.includes(value)
-          ? (newFilters.size = newFilters.size.filter(s => s !== value))
-          : newFilters.size.push(value);
-      }
-      return newFilters;
-    });
-  };
+        // Sort by price
+        if (sort) {
+            filteredProducts = filteredProducts.sort((a, b) =>
+                sort === 'low-to-high' ? a.salePrice - b.salePrice : b.salePrice - a.salePrice
+            );
+        }
 
-  return (
-    <div className="flex">
-      <div className="w-64 bg-white p-4 border-r border-gray-200">
-        <h2 className="text-2xl font-bold mb-6">Filters</h2>
-        <div className="mb-6">
-          <h3
-            className="text-lg font-semibold mb-2 cursor-pointer flex justify-between items-center"
-            onClick={() => setIsSortOpen(!isSortOpen)}
-          >
-            Sort
-            {/* <FaChevronDown className={`transform transition-transform duration-300 ${isSortOpen ? 'rotate-180' : ''}`} /> */}
-          </h3>
-          {isSortOpen && (
-            <div>
-              {['Relevance', 'Popularity', 'Price - Low to High', 'Price - High to Low'].map((sortOption, index) => (
-                <label key={index} className="flex items-center space-x-2 mt-2">
-                  <input type="checkbox" className="form-checkbox" />
-                  <span>{sortOption}</span>
-                </label>
-              ))}
+        // Filter by rating
+        if (selectedRating) {
+            const rating = parseInt(selectedRating);
+            filteredProducts = filteredProducts.filter(product => product.averageReview >= rating);
+        }
+
+        // Filter by price range
+        if (priceRange) {
+            if (priceRange === '0-1000') {
+                filteredProducts = filteredProducts.filter(product => product.salePrice <= 1000);
+            } else if (priceRange === '1000-5000') {
+                filteredProducts = filteredProducts.filter(product => product.salePrice > 1000 && product.salePrice <= 5000);
+            } else if (priceRange === '5000-10000') {
+                filteredProducts = filteredProducts.filter(product => product.salePrice > 5000 && product.salePrice <= 10000);
+            } else if (priceRange === '10000-above') {
+                filteredProducts = filteredProducts.filter(product => product.salePrice > 10000);
+            }
+        }
+
+        // Update the filtered products in the parent component
+        setFilteredProducts(filteredProducts);
+    };
+
+    return (
+        <div className="bg-white bg-opacity-90 shadow-md rounded-lg p-4 w-64">
+            <h2 className="text-lg font-bold mb-4">Filters</h2>
+
+            {/* Sort by Price */}
+            <div className="mb-4">
+                <h3 className="font-semibold mb-2">Sort by Price</h3>
+                <div>
+                    <input
+                        type="radio"
+                        id="low-to-high"
+                        name="sort"
+                        value="low-to-high"
+                        checked={sort === 'low-to-high'}
+                        onChange={() => setSort('low-to-high')}
+                    />
+                    <label htmlFor="low-to-high" className="ml-2">Low to High</label>
+                </div>
+                <div>
+                    <input
+                        type="radio"
+                        id="high-to-low"
+                        name="sort"
+                        value="high-to-low"
+                        checked={sort === 'high-to-low'}
+                        onChange={() => setSort('high-to-low')}
+                    />
+                    <label htmlFor="high-to-low" className="ml-2">High to Low</label>
+                </div>
             </div>
-          )}
-        </div>
-        <div className="mb-6">
-          <h3
-            className="text-lg font-semibold mb-2 cursor-pointer flex justify-between items-center"
-            onClick={() => setIsBrandOpen(!isBrandOpen)}
-          >
-            Brand
-     {/* /       <FaChevronDown className={`transform transition-transform duration-300 ${isBrandOpen ? 'rotate-180' : ''}`} /> */}
-          </h3>
-          {isBrandOpen && (
-            <div>
-              {['Puma', 'Nike', 'Woodland', 'Reebok', 'Campus'].map((brand, index) => (
-                <label key={index} className="flex items-center space-x-2 mt-2">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox"
-                    onChange={() => toggleFilter('brand', brand)}
-                  />
-                  <span>{brand}</span>
-                </label>
-              ))}
+
+            {/* Filter by Rating */}
+            <div className="mb-4">
+                <h3 className="font-semibold mb-2">Rating</h3>
+                {[5, 4, 3, 2].map(rating => (
+                    <div key={rating}>
+                        <input
+                            type="radio"
+                            id={`${rating}-star`}
+                            name="rating"
+                            value={rating}
+                            checked={selectedRating === `${rating}`}
+                            onChange={() => setSelectedRating(`${rating}`)}
+                        />
+                        <label htmlFor={`${rating}-star`} className="ml-2">{rating} stars & above</label>
+                    </div>
+                ))}
             </div>
-          )}
-        </div>
-        <div className="mb-6">
-          <h3
-            className="text-lg font-semibold mb-2 cursor-pointer flex justify-between items-center"
-            onClick={() => setIsSizeOpen(!isSizeOpen)}
-          >
-            Size
-            {/* <FaChevronDown className={`transform transition-transform duration-300 ${isSizeOpen ? 'rotate-180' : ''}`} /> */}
-          </h3>
-          {isSizeOpen && (
-            <div>
-              {['UK11', 'UK10', 'UK9', 'UK8', 'UK7', 'UK6'].map((size, index) => (
-                <label key={index} className="flex items-center space-x-2 mt-2">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox"
-                    onChange={() => toggleFilter('size', size)}
-                  />
-                  <span>{size}</span>
-                </label>
-              ))}
+
+            {/* Filter by Price Range */}
+            <div className="mb-4">
+                <h3 className="font-semibold mb-2">Price Range</h3>
+                {['0-1000', '1000-5000', '5000-10000', '10000-above'].map(range => (
+                    <div key={range}>
+                        <input
+                            type="radio"
+                            id={range}
+                            name="priceRange"
+                            value={range}
+                            checked={priceRange === range}
+                            onChange={() => setPriceRange(range)}
+                        />
+                        <label htmlFor={range} className="ml-2">{range.replace('-', ' to ')}</label>
+                    </div>
+                ))}
             </div>
-          )}
+
+            {/* Apply Filters Button */}
+            <button
+                className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+                onClick={applyFilters}
+            >
+                Apply Filters
+            </button>
         </div>
-        <div className="mb-6">
-          <h3
-            className="text-lg font-semibold mb-2 cursor-pointer flex justify-between items-center"
-            onClick={() => setIsRatingOpen(!isRatingOpen)}
-          >
-            Rating
-            {/* <FaChevronDown className={`transform transition-transform duration-300 ${isRatingOpen ? 'rotate-180' : ''}`} /> */}
-          </h3>
-          {isRatingOpen && (
-            <div>
-              {['4 Star & above', '3 Star & above', '2 Star & above'].map((rating, index) => (
-                <label key={index} className="flex items-center space-x-2 mt-2">
-                  <input type="checkbox" className="form-checkbox" />
-                  <span>{rating}</span>
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
-        <div className="mb-6">
-          <h3
-            className="text-lg font-semibold mb-2 cursor-pointer flex justify-between items-center"
-            onClick={() => setIsPriceOpen(!isPriceOpen)}
-          >
-            Price
-            {/* <FaChevronDown className={`transform transition-transform duration-300 ${isPriceOpen ? 'rotate-180' : ''}`} /> */}
-          </h3>
-          {isPriceOpen && (
-            <div>
-              {['299-499', '499-999', '999-1999', '1999-2999', '3999-4999', '4999-5999'].map((priceRange, index) => (
-                <label key={index} className="flex items-center space-x-2 mt-2">
-                  <input type="checkbox" className="form-checkbox" />
-                  <span>{priceRange}</span>
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-      <div className="flex-1 p-4">
-        {/* <ProductGrid filters={filters} /> */}
-      </div>
-    </div>
-  );
+    );
 };
 
 export default FilterSidebar;

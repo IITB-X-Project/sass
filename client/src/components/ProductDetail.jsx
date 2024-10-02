@@ -201,7 +201,8 @@
 // };
 
 // export default ProductDetail;
-import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from './Header';
 
@@ -210,6 +211,7 @@ const ProductDetail = () => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [cart, setCart] = useState([]);
     const [currentImage, setCurrentImage] = useState('');
     const [selectedSize, setSelectedSize] = useState('');
     const [quantity, setQuantity] = useState(1);
@@ -237,19 +239,34 @@ const ProductDetail = () => {
         fetchProduct();
     }, [id]);
 
-    const addToCart = () => {
+    const addToCart = async () => {
         if (selectedSize) {
-            const cartItem = { ...product, selectedSize, quantity };
-            // Assuming there's a setCart method passed as props or through context
-            setMessage(`${product.title} has been added to your cart!`);
-
-            setTimeout(() => {
-                setMessage('');
-            }, 2000);
+            const items = { productId: product._id, quantity }; // Add necessary details
+    
+            try {
+                // Create a new cart if none exists
+                if (cart.length === 0) {
+                    await axios.post('http://localhost:3000/api/carts/cart', { items });
+                } else {
+                    // This request might need to be updated to PUT instead of POST if you're updating
+                    await axios.put('http://localhost:3000/api/carts/cart/:userId', { items });
+                }
+    
+                setCart((prevCart) => [...prevCart, items]);
+                setMessage(`${product.title} has been added to your cart!`);
+    
+                setTimeout(() => {
+                    setMessage('');
+                }, 2000);
+            } catch (error) {
+                console.error("Error adding to cart:", error);
+                alert("Failed to add item to cart. Please try again.");
+            }
         } else {
             alert('Please select a size before adding to cart.');
         }
     };
+    
 
     const handleThumbnailClick = (image) => {
         setCurrentImage(image);

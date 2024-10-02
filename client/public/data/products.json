@@ -1,7 +1,7 @@
 [
     {
       "id": 1,
-      "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png",
+      "image": ["https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png"],
       "title": "Product 1",
       "description": "PokeAPI is a simple service provider",
       "brand": "PokeAPI",

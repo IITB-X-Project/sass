@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
 import FilterSidebar from '../components/FilterSidebar';
+import Header from '../components/Header';
 
 const Mobiles = () => {
     // State to store products
